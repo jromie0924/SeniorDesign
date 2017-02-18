@@ -1,40 +1,41 @@
-clear all; clc;
+function [data] = getGLCM(directory)
 
-%data;
-offsets = [-1 0;-1 1;-1 -1;1 0;1 -1;1 1;0 -1;0 1];
+    %data;
+    offsets = [-1 0;-1 1;-1 -1;1 0;1 -1;1 1;0 -1;0 1];
 
-%category = 'car';
-
-directory = 'data/car/train/';
-dirInfo = dir(directory);
-dirSize = size(dirInfo);
-
-a = 1;
-for idx = 4 : dirSize(1)
-    imgName = dirInfo(idx).name;
+    %category = 'car';
     
-    img = imread([directory '/' imgName]);
-    imgR = img(:, :, 1);
-    imgG = img(:, :, 2);
-    imgB = img(:, :, 3);
+    dirInfo = dir(directory);
+    dirSize = size(dirInfo);
+    
+    a = 1;
+    for idx = 4 : dirSize(1)
+        imgName = dirInfo(idx).name;
 
-    [glcmR, ~] = graycomatrix(imgR, 'Offset', offsets, 'G', [], 'NumLevels', 8);
-    [glcmG, ~] = graycomatrix(imgG, 'Offset', offsets, 'G', [], 'NumLevels', 8);
-    [glcmB, ~] = graycomatrix(imgB, 'Offset', offsets, 'G', [], 'NumLevels', 8);
+        img = imread([directory '/' imgName]);
+        imgR = img(:, :, 1);
+        imgG = img(:, :, 2);
+        imgB = img(:, :, 3);
 
-    sz = size(glcmR);
-    thirdDim = sz(3);
-    concatR = zeros(thirdDim);
-    concatG = zeros(thirdDim);
-    concatB = zeros(thirdDim);
+        [glcmR, ~] = graycomatrix(imgR, 'Offset', offsets, 'G', [], 'NumLevels', 8);
+        [glcmG, ~] = graycomatrix(imgG, 'Offset', offsets, 'G', [], 'NumLevels', 8);
+        [glcmB, ~] = graycomatrix(imgB, 'Offset', offsets, 'G', [], 'NumLevels', 8);
 
-    for i = 1 : thirdDim
-       concatR = concatR + glcmR(:, :, i);
-       concatG = concatG + glcmG(:, :, i);
-       concatB = concatB + glcmB(:, :, i);
+        sz = size(glcmR);
+        thirdDim = sz(3);
+        concatR = zeros(thirdDim);
+        concatG = zeros(thirdDim);
+        concatB = zeros(thirdDim);
+
+        for i = 1 : thirdDim
+           concatR = concatR + glcmR(:, :, i);
+           concatG = concatG + glcmG(:, :, i);
+           concatB = concatB + glcmB(:, :, i);
+        end
+
+        data(:, :, a) = [concatR; concatG; concatB];
+        a = a + 1;
+        %data = [data; concatR concatG concatB];
     end
-
-    data(:, :, a) = [concatR; concatG; concatB];
-    a = a + 1;
-    %data = [data; concatR concatG concatB];
+    
 end
