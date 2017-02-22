@@ -1,13 +1,13 @@
 function [data] = getGLCM(directory)
 
-    %data;
+    %dataaaaaaaa;
     offsets = [-1 0;-1 1;-1 -1;1 0;1 -1;1 1;0 -1;0 1];
 
     %category = 'car';
-    
+
     dirInfo = dir(directory);
     dirSize = size(dirInfo);
-    
+
     a = 1;
     for idx = 4 : dirSize(1)
         imgName = dirInfo(idx).name;
@@ -32,16 +32,16 @@ function [data] = getGLCM(directory)
            concatG = concatG + glcmG(:, :, i);
            concatB = concatB + glcmB(:, :, i);
         end
-        
+
         redFeatures = haralickTextureFeatures(concatR);
         greenFeatures = haralickTextureFeatures(concatG);
         blueFeatures = haralickTextureFeatures(concatB);
-        
+
         %data(:, :, a) = {concatR concatG concatB};
         data(:, :, a) = {concatR, redFeatures, concatG, greenFeatures, concatB, blueFeatures};
-        
+
         a = a + 1;
         %data = [data; concatR concatG concatB];
     end
-    
+
 end
