@@ -9,7 +9,7 @@ function [data] = getGLCM(directory)
     dirSize = size(dirInfo);
     
     a = 1;
-    for idx = 4 : dirSize(1)
+    for idx = 3 : dirSize(1)
         imgName = dirInfo(idx).name;
 
         img = imread([directory '/' imgName]);
