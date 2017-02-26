@@ -78,7 +78,14 @@ function BrowseButton_Callback(hObject, eventdata, handles)
 % hObject    handle to BrowseButton (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-[FileName,PathName] = uigetfile('*.jpg','Select an image.');
+[fileName,pathName] = uigetfile('*.jpg','Select an image.');
+file = strcat(pathName,fileName);
 axes(handles.InputImage);
-imshow(strcat(PathName,FileName));
+imshow(file);
+load('SVM.mat');
+image = imread(file);
+class = predictClass(image, svm);
+command = ['python IQPlot.py' ' ' class];
+system(command);
+
 

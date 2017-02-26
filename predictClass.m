@@ -1,4 +1,4 @@
-function [class] = predictClass(img, model)
+function [class, status, commandOut] = predictClass(img, model)
 
     offsets = [-1 0;-1 1;-1 -1;1 0;1 -1;1 1;0 -1;0 1];
     imgR = img(:, :, 1);
