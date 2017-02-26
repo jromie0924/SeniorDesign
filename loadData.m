@@ -18,6 +18,6 @@ allFeatures = {carData, flowerData, lighthouseData, shipData};
 
 [train, classes] = separateData(allFeatures);
 
-tree = fitcecoc(train, classes);
+svm = fitcecoc(train, classes);
 
 img = imread('data/car/test/29040.jpg');
