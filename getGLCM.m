@@ -36,12 +36,10 @@ function [data] = getGLCM(directory)
         redFeatures = haralickTextureFeatures(concatR);
         greenFeatures = haralickTextureFeatures(concatG);
         blueFeatures = haralickTextureFeatures(concatB);
-
-        %data(:, :, a) = {concatR concatG concatB};
+        
         data(:, :, a) = {concatR, redFeatures, concatG, greenFeatures, concatB, blueFeatures};
 
         a = a + 1;
-        %data = [data; concatR concatG concatB];
     end
 
 end
