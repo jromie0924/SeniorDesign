@@ -1,5 +1,5 @@
 function [data] = getGLCM(directory)
-
+    debug = false;
     offsets = [-1 0;-1 1;-1 -1;1 0;1 -1;1 1;0 -1;0 1];
 
     dirInfo = dir(directory);
@@ -42,6 +42,9 @@ function [data] = getGLCM(directory)
 
             a = a + 1;
         catch MException
+            if debug
+                disp(MException);
+            end
             continue;
         end
     end
