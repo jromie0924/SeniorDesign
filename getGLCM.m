@@ -1,47 +1,49 @@
 function [data] = getGLCM(directory)
 
-    %dataaaaaaaa;
     offsets = [-1 0;-1 1;-1 -1;1 0;1 -1;1 1;0 -1;0 1];
-
-    %category = 'car';
 
     dirInfo = dir(directory);
     dirSize = size(dirInfo);
 
     a = 1;
-    for idx = 3 : dirSize(1)
-        imgName = dirInfo(idx).name;
+    for idx = 1 : dirSize(1)
+        imgName = dirInfo(idx).name;        
+        
+        try % If the statements inside this try fail, we continue, as it 
+            % will be caused by a hidden file automatically-generated
+            % by the file system.
+            
+            img = imread([directory '/' imgName]);
+            imgR = img(:, :, 1);
+            imgG = img(:, :, 2);
+            imgB = img(:, :, 3);
 
-        img = imread([directory '/' imgName]);
-        imgR = img(:, :, 1);
-        imgG = img(:, :, 2);
-        imgB = img(:, :, 3);
+            [glcmR, ~] = graycomatrix(imgR, 'Offset', offsets, 'G', [], 'NumLevels', 8);
+            [glcmG, ~] = graycomatrix(imgG, 'Offset', offsets, 'G', [], 'NumLevels', 8);
+            [glcmB, ~] = graycomatrix(imgB, 'Offset', offsets, 'G', [], 'NumLevels', 8);
 
-        [glcmR, ~] = graycomatrix(imgR, 'Offset', offsets, 'G', [], 'NumLevels', 8);
-        [glcmG, ~] = graycomatrix(imgG, 'Offset', offsets, 'G', [], 'NumLevels', 8);
-        [glcmB, ~] = graycomatrix(imgB, 'Offset', offsets, 'G', [], 'NumLevels', 8);
+            sz = size(glcmR);
+            thirdDim = sz(3);
+            concatR = zeros(thirdDim);
+            concatG = zeros(thirdDim);
+            concatB = zeros(thirdDim);
 
-        sz = size(glcmR);
-        thirdDim = sz(3);
-        concatR = zeros(thirdDim);
-        concatG = zeros(thirdDim);
-        concatB = zeros(thirdDim);
+            for i = 1 : thirdDim
+               concatR = concatR + glcmR(:, :, i);
+               concatG = concatG + glcmG(:, :, i);
+               concatB = concatB + glcmB(:, :, i);
+            end
 
-        for i = 1 : thirdDim
-           concatR = concatR + glcmR(:, :, i);
-           concatG = concatG + glcmG(:, :, i);
-           concatB = concatB + glcmB(:, :, i);
+            redFeatures = haralickTextureFeatures(concatR);
+            greenFeatures = haralickTextureFeatures(concatG);
+            blueFeatures = haralickTextureFeatures(concatB);
+
+            data(:, :, a) = {concatR, redFeatures, concatG, greenFeatures, concatB, blueFeatures};
+
+            a = a + 1;
+        catch MException
+            continue;
         end
-
-        redFeatures = haralickTextureFeatures(concatR);
-        greenFeatures = haralickTextureFeatures(concatG);
-        blueFeatures = haralickTextureFeatures(concatB);
-
-        %data(:, :, a) = {concatR concatG concatB};
-        data(:, :, a) = {concatR, redFeatures, concatG, greenFeatures, concatB, blueFeatures};
-
-        a = a + 1;
-        %data = [data; concatR concatG concatB];
     end
 
 end
