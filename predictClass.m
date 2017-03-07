@@ -34,12 +34,12 @@ function [class] = predictClass(img, model)
             class = 'car';
             
         case 2
-            class = 'flower';
+            class = 'firework';
             
         case 3
-            class = 'lighthouse';
+            class = 'fish';
             
         case 4
-            class = 'ship';
+            class = 'flower';
     end
 end
