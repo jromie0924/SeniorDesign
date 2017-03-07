@@ -82,6 +82,7 @@ function BrowseButton_Callback(hObject, eventdata, handles)
 file = strcat(pathName,fileName);
 axes(handles.InputImage);
 imshow(file);
+drawnow()
 load('SVM.mat');
 image = imread(file);
 class = predictClass(image, svm);
