@@ -18,3 +18,7 @@ allFeatures = {carData, fireworkData, fishData, flowerData};
 [train, classes] = separateData(allFeatures);
 
 svm = fitcecoc(train, classes);
+
+[car, firework, fish, flower] = getTestResults(svm);
+allResults = [car; firework; fish; flower];
+confusionMat = getConfusionMatrix(allResults);
