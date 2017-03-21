@@ -21,23 +21,7 @@ function [class] = predictClass(img, model)
        concatB = concatB + glcmB(:, :, i);
     end
 
-    % Populate all features of red channel
-    redFeatures = haralickTextureFeatures(concatR);
-    redBlocks = divideMatrix(imgR);
-    redAvgEntropy = calculateAverageEntropy(redBlocks);
-    redFeatures(15) = redAvgEntropy;
-
-    % Populate all features of green channel
-    greenFeatures = haralickTextureFeatures(concatG);
-    greenBlocks = divideMatrix(imgG);
-    greenAvgEntropy = calculateAverageEntropy(greenBlocks);
-    greenFeatures(15) = greenAvgEntropy;
-
-    % Populate all features of blue channel
-    blueFeatures = haralickTextureFeatures(concatB);
-    blueBlocks = divideMatrix(imgB);
-    blueAvgEntropy = calculateAverageEntropy(blueBlocks);
-    blueFeatures(15) = blueAvgEntropy;
+    [redFeatures, greenFeatures, blueFeatures] = populateFeatures(imgR, concatR, imgG, concatG, imgB, concatB);
     
     allFeatures = horzcat(redFeatures.', greenFeatures.', blueFeatures.');
     
