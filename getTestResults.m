@@ -41,7 +41,6 @@ function [car_predictions, firework_predictions, fish_predictions, flower_predic
           firework_predictions(firework_listPos) = {predictedClass};
           firework_listPos = firework_listPos + 1;
        catch MException
-           %disp(MException);
            continue
        end
     end
@@ -57,7 +56,6 @@ function [car_predictions, firework_predictions, fish_predictions, flower_predic
           fish_predictions(fish_listPos) = {predictedClass};
           fish_listPos = fish_listPos + 1;
        catch MException
-           %disp(MException);
            continue
        end
     end
@@ -73,7 +71,6 @@ function [car_predictions, firework_predictions, fish_predictions, flower_predic
           flower_predictions(flower_listPos) = {predictedClass};
           flower_listPos = flower_listPos + 1;
        catch MException
-           %disp(MException);
            continue
        end
     end

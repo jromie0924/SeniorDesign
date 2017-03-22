@@ -8,10 +8,10 @@
 
 clear all; clc;
 
-carData = getGLCM('data/car/train');
-fireworkData = getGLCM('data/firework/train');
-fishData = getGLCM('data/fish/train');
-flowerData = getGLCM('data/flower/train');
+carData = getFeatures('data/car/train');
+fireworkData = getFeatures('data/firework/train');
+fishData = getFeatures('data/fish/train');
+flowerData = getFeatures('data/flower/train');
 
 allFeatures = {carData, fireworkData, fishData, flowerData};
 
